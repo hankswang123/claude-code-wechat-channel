@@ -14,33 +14,32 @@ Claude Code ← MCP Channel Protocol ← wechat_reply tool
 
 ## 前置要求
 
-- [Bun](https://bun.sh) >= 1.0
+- [Node.js](https://nodejs.org) >= 18（或 [Bun](https://bun.sh) >= 1.0）
 - [Claude Code](https://claude.com/claude-code) >= 2.1.80
-- claude.ai 账号登录（不支持 API key）
+- claude.ai 账号登录或 API key（`ANTHROPIC_API_KEY`）
 - 微信 iOS 最新版（需支持 ClawBot 插件）
 
 ## 快速开始
 
-### 1. 安装依赖
+### 1. 微信扫码登录
 
 ```bash
-git clone https://github.com/Johnixr/claude-code-wechat-channel.git
-cd claude-code-wechat-channel
-bun install
-```
-
-### 2. 微信扫码登录
-
-```bash
-bun setup.ts
+npx claude-code-wechat-channel setup
 ```
 
 终端会显示二维码，用微信扫描并确认。凭据保存到 `~/.claude/channels/wechat/account.json`。
 
+### 2. 生成 MCP 配置
+
+```bash
+npx claude-code-wechat-channel install
+```
+
+这会在当前目录生成（或更新） `.mcp.json`，指向本插件。
+
 ### 3. 启动 Claude Code + WeChat 通道
 
 ```bash
-cd claude-code-wechat-channel
 claude --dangerously-load-development-channels server:wechat
 ```
 
@@ -48,13 +47,14 @@ claude --dangerously-load-development-channels server:wechat
 
 打开微信，找到 ClawBot 对话，发送消息。消息会出现在 Claude Code 终端中，Claude 的回复会自动发回微信。
 
-## 文件说明
+## 命令说明
 
-| 文件 | 说明 |
+| 命令 | 说明 |
 |------|------|
-| `wechat-channel.ts` | MCP Channel 服务器主文件 |
-| `setup.ts` | 独立的微信扫码登录工具 |
-| `.mcp.json` | Claude Code MCP 服务器配置 |
+| `npx claude-code-wechat-channel setup` | 微信扫码登录 |
+| `npx claude-code-wechat-channel install` | 生成 .mcp.json 配置 |
+| `npx claude-code-wechat-channel start` | 启动 MCP Channel 服务器 |
+| `npx claude-code-wechat-channel help` | 显示帮助 |
 
 ## 技术细节
 
